@@ -5,6 +5,7 @@ import asyncio
 import os
 
 TOKEN = os.getenv("TOKEN")
+GUILD_ID = 123456789012345678
 
 CANAL_BOSS = 1481485483619123281
 CANAL_SHOP = 1481485503609045105
@@ -69,11 +70,14 @@ async def loop_shop():
 async def on_ready():
     print(f"Bot conectado como {bot.user}")
 
+    guild = discord.Object(id=GUILD_ID)
+    bot.tree.copy_global_to(guild=guild)
+    await bot.tree.sync(guild=guild)
+
     bot.loop.create_task(loop_boss())
     bot.loop.create_task(loop_shop())
 
-    await bot.tree.sync()
-    print("Comandos sincronizados")
+    print("Comandos sincronizados no servidor")
 
 @bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
