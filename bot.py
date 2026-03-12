@@ -11,7 +11,7 @@ CANAL_SHOP = 1481485503609045105
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="/", intents=intents)
 
 ultimo_boss = None
 ultimo_shop = None
