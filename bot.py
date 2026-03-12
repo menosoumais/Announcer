@@ -48,7 +48,7 @@ async def loop_boss():
         canal = bot.get_channel(CANAL_BOSS)
 
         if canal:
-            await canal.send("<@1481015294477733983>\n🔔 The Spirit Trials is up!! Run for it")
+            await canal.send("🔔 The Spirit Trials is up!! Run for it\n||<@1481015294477733983>||")
 
 async def loop_shop():
     await bot.wait_until_ready()
@@ -64,7 +64,7 @@ async def loop_shop():
         canal = bot.get_channel(CANAL_SHOP)
 
         if canal:
-            await canal.send("<@1481015294477733983>\n🔔 The Trial Shop is up!! Run for it")
+            await canal.send("🔔 The Trial Shop is up!! Run for it\n||<@1481015294477733983>||")
 
 @bot.event
 async def on_ready():
