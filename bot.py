@@ -81,10 +81,10 @@ async def loop_shop():
                 color=discord.Color.gold()
             )
 
-             embed.set_footer(text="Spirit Tracker")
+            embed.set_footer(text="Spirit Tracker")
 
-             await canal.send(embed=embed)
-             await canal.send("||<@&1481015294477733983>||")
+            await canal.send(embed=embed)
+            await canal.send("||<@&1481015294477733983>||")
 
 @bot.event
 async def on_ready():
