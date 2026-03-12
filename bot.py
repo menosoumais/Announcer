@@ -43,12 +43,24 @@ async def loop_boss():
         boss = proximo_boss()
 
         espera = (boss - tempo).total_seconds()
-        await asyncio.sleep(espera)
+        await asyncio.sleep(max(espera,0))
 
         canal = bot.get_channel(CANAL_BOSS)
 
         if canal:
-            await canal.send("🔔 The Spirit Trials is up!! Run for it\n||<@1481015294477733983>||")
+
+            embed = discord.Embed(
+                title="⚔️ Spirit Trial Available",
+                description="Run for it!",
+                color=discord.Color.red()
+            )
+
+            embed.set_footer(text="Spirit Tracker")
+
+            await canal.send(
+                content="||<@1481015294477733983>||",
+                embed=embed
+            )
 
 async def loop_shop():
     await bot.wait_until_ready()
@@ -59,15 +71,28 @@ async def loop_shop():
         shop = proximo_shop()
 
         espera = (shop - tempo).total_seconds()
-        await asyncio.sleep(espera)
+        await asyncio.sleep(max(espera,0))
 
         canal = bot.get_channel(CANAL_SHOP)
 
         if canal:
-            await canal.send("🔔 The Trial Shop is up!! Run for it\n||<@1481015294477733983>||")
+
+            embed = discord.Embed(
+                title="🛒 Trial Shop Available",
+                description="Run for it!",
+                color=discord.Color.gold()
+            )
+
+            embed.set_footer(text="Spirit Tracker")
+
+            await canal.send(
+                content="||<@1481015294477733983>||",
+                embed=embed
+            )
 
 @bot.event
 async def on_ready():
+
     print(f"Bot conectado como {bot.user}")
 
     guild = discord.Object(id=GUILD_ID)
@@ -90,7 +115,20 @@ async def timetrial(interaction: discord.Interaction):
     minutos = total // 60
     segundos = total % 60
 
-    await interaction.response.send_message(f"⚔️ Next spirit in {minutos}m {segundos}s")
+    embed = discord.Embed(
+        title="⚔️ Spirit Trial",
+        color=discord.Color.blue()
+    )
+
+    embed.add_field(
+        name="Next spawn",
+        value=f"{minutos}m {segundos}s",
+        inline=False
+    )
+
+    embed.set_footer(text="Spirit Tracker")
+
+    await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="timeshop")
 async def timeshop(interaction: discord.Interaction):
@@ -104,7 +142,20 @@ async def timeshop(interaction: discord.Interaction):
     horas = total // 3600
     minutos = (total % 3600) // 60
 
-    await interaction.response.send_message(f"🛒 Next shop update in {horas}h {minutos}m")
+    embed = discord.Embed(
+        title="🛒 Trial Shop",
+        color=discord.Color.blue()
+    )
+
+    embed.add_field(
+        name="Next update",
+        value=f"{horas}h {minutos}m",
+        inline=False
+    )
+
+    embed.set_footer(text="Spirit Tracker")
+
+    await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="next")
 async def next_event(interaction: discord.Interaction):
@@ -126,8 +177,26 @@ async def next_event(interaction: discord.Interaction):
     shop_h = total_shop // 3600
     shop_m = (total_shop % 3600) // 60
 
-    await interaction.response.send_message(
-        f"⚔️ Spirit Trial: {boss_min}m {boss_sec}s\n🛒 Trial Shop: {shop_h}h {shop_m}m"
+    embed = discord.Embed(
+        title="📅 Event Tracker",
+        description="Current event timers",
+        color=discord.Color.blue()
     )
+
+    embed.add_field(
+        name="⚔️ Spirit Trial",
+        value=f"{boss_min}m {boss_sec}s",
+        inline=False
+    )
+
+    embed.add_field(
+        name="🛒 Trial Shop",
+        value=f"{shop_h}h {shop_m}m",
+        inline=False
+    )
+
+    embed.set_footer(text="Spirit Tracker")
+
+    await interaction.response.send_message(embed=embed)
 
 bot.run(TOKEN)
