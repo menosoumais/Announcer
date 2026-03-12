@@ -71,7 +71,6 @@ async def on_ready():
     print(f"Bot conectado como {bot.user}")
 
     guild = discord.Object(id=GUILD_ID)
-    bot.tree.copy_global_to(guild=guild)
     await bot.tree.sync(guild=guild)
 
     bot.loop.create_task(loop_boss())
