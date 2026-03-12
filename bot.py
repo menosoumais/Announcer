@@ -106,4 +106,28 @@ async def timeshop(interaction: discord.Interaction):
 
     await interaction.response.send_message(f"🛒 Next shop update in {horas}h {minutos}m")
 
+@bot.tree.command(name="next")
+async def next_event(interaction: discord.Interaction):
+
+    tempo = agora()
+
+    boss = proximo_boss()
+    shop = proximo_shop()
+
+    restante_boss = boss - tempo
+    restante_shop = shop - tempo
+
+    total_boss = int(restante_boss.total_seconds())
+    total_shop = int(restante_shop.total_seconds())
+
+    boss_min = total_boss // 60
+    boss_sec = total_boss % 60
+
+    shop_h = total_shop // 3600
+    shop_m = (total_shop % 3600) // 60
+
+    await interaction.response.send_message(
+        f"⚔️ Spirit Trial: {boss_min}m {boss_sec}s\n🛒 Trial Shop: {shop_h}h {shop_m}m"
+    )
+
 bot.run(TOKEN)
