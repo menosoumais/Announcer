@@ -13,24 +13,25 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+ultimo_boss = None
+ultimo_shop = None
+
 
 def proximo_boss():
     agora = datetime.now()
-    proximo = agora.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
-    return proximo
+    return agora.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
 
 
 def proximo_shop():
     agora = datetime.now()
+    horarios = [1,5,9,13,17,21]
 
-    horas_shop = [1,5,9,13,17,21]
-
-    for h in horas_shop:
+    for h in horarios:
         proximo = agora.replace(hour=h, minute=0, second=0, microsecond=0)
         if proximo > agora:
             return proximo
 
-    return agora.replace(day=agora.day+1, hour=1, minute=0, second=0, microsecond=0)
+    return agora.replace(day=agora.day + 1, hour=1, minute=0, second=0, microsecond=0)
 
 
 @bot.event
@@ -42,20 +43,27 @@ async def on_ready():
 @tasks.loop(seconds=30)
 async def checar_tempo():
 
+    global ultimo_boss
+    global ultimo_shop
+
     agora = datetime.now()
 
     boss = proximo_boss()
     shop = proximo_shop()
 
     if (boss - agora).total_seconds() <= 30:
-        canal = bot.get_channel(CANAL_BOSS)
-        if canal:
-            await canal.send("🔔 The Spirit boss is active!!")
+        if ultimo_boss != boss.hour:
+            canal = bot.get_channel(CANAL_BOSS)
+            if canal:
+                await canal.send("⚔️ Boss apareceu!")
+            ultimo_boss = boss.hour
 
     if (shop - agora).total_seconds() <= 30:
-        canal = bot.get_channel(CANAL_SHOP)
-        if canal:
-            await canal.send("🔔 The Trial Shop is up!! Run for it")
+        if ultimo_shop != shop.hour:
+            canal = bot.get_channel(CANAL_SHOP)
+            if canal:
+                await canal.send("🛒 Shop abriu!")
+            ultimo_shop = shop.hour
 
 
 @bot.command()
