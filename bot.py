@@ -1,6 +1,7 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 from datetime import datetime, timedelta
+import asyncio
 import os
 
 TOKEN = os.getenv("TOKEN")
@@ -13,9 +14,6 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="/", intents=intents)
 
-ultimo_boss = None
-ultimo_shop = None
-
 
 def proximo_boss():
     agora = datetime.now()
@@ -24,74 +22,84 @@ def proximo_boss():
 
 def proximo_shop():
     agora = datetime.now()
-    horarios = [1,5,9,13,17,21]
+    horarios = [1, 5, 9, 13, 17, 21]
 
     for h in horarios:
         proximo = agora.replace(hour=h, minute=0, second=0, microsecond=0)
-        if proximo > agora:
+        if agora < proximo:
             return proximo
 
-    return agora.replace(day=agora.day + 1, hour=1, minute=0, second=0, microsecond=0)
+    amanha = agora + timedelta(days=1)
+    return amanha.replace(hour=1, minute=0, second=0, microsecond=0)
+
+
+async def loop_boss():
+    await bot.wait_until_ready()
+    while not bot.is_closed():
+
+        agora = datetime.now()
+        boss = proximo_boss()
+
+        espera = (boss - agora).total_seconds()
+        await asyncio.sleep(espera)
+
+        canal = bot.get_channel(CANAL_BOSS)
+        if canal:
+            await canal.send(
+                "<@1481015294477733983>\n⚔️ The Spirit is up!"
+            )
+
+
+async def loop_shop():
+    await bot.wait_until_ready()
+    while not bot.is_closed():
+
+        agora = datetime.now()
+        shop = proximo_shop()
+
+        espera = (shop - agora).total_seconds()
+        await asyncio.sleep(espera)
+
+        canal = bot.get_channel(CANAL_SHOP)
+        if canal:
+            await canal.send(
+                "<@1481015294477733983>\n🛒 The Trial Shop is up!! Run for it"
+            )
 
 
 @bot.event
 async def on_ready():
-    print(f'Bot conectado como {bot.user}')
-    checar_tempo.start()
-
-
-@tasks.loop(seconds=30)
-async def checar_tempo():
-
-    global ultimo_boss
-    global ultimo_shop
-
-    agora = datetime.now()
-
-    boss = proximo_boss()
-    shop = proximo_shop()
-
-    if (boss - agora).total_seconds() <= 30:
-        if ultimo_boss != boss.hour:
-            canal = bot.get_channel(CANAL_BOSS)
-            if canal:
-                await canal.send(
-"<@1481015294477733983>\n🔔 The Trial Shop is up!! Run for it")
-            ultimo_boss = boss.hour
-
-    if (shop - agora).total_seconds() <= 30:
-        if ultimo_shop != shop.hour:
-            canal = bot.get_channel(CANAL_SHOP)
-            if canal:
-                await canal.send(
-"<@1481015294477733983>\n🔔 The Trial Shop is up!! Run for it")
-            ultimo_shop = shop.hour
+    print(f"Bot conectado como {bot.user}")
+    bot.loop.create_task(loop_boss())
+    bot.loop.create_task(loop_shop())
 
 
 @bot.command()
-async def time_boss(ctx):
+async def timeboss(ctx):
 
     agora = datetime.now()
     boss = proximo_boss()
 
     restante = boss - agora
+    total = int(restante.total_seconds())
 
-    minutos = restante.seconds // 60
-    segundos = restante.seconds % 60
+    minutos = total // 60
+    segundos = total % 60
 
     await ctx.send(f"Next spirit in {minutos}m {segundos}s")
 
 
 @bot.command()
-async def time_shop(ctx):
+async def timeshop(ctx):
 
     agora = datetime.now()
     shop = proximo_shop()
 
     restante = shop - agora
+    total = int(restante.total_seconds())
 
-    horas = restante.seconds // 3600
-    minutos = (restante.seconds % 3600) // 60
+    horas = total // 3600
+    minutos = (total % 3600) // 60
 
     await ctx.send(f"Next shop update in {horas}h {minutos}m")
 
