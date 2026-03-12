@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta
+import os
 
-TOKEN = "MTQ4MTQ3MzgwODU4MDg3NDMwMQ.GBzX6D.RiMUivxmqyjn5uexhkPBAegJzL_xLD-AkSpYK0""
+TOKEN = os.getenv("TOKEN")
 
 CANAL_BOSS = 1481485483619123281
 CANAL_SHOP = 1481485503609045105
