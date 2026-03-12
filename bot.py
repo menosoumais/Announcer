@@ -72,11 +72,8 @@ async def on_ready():
     bot.loop.create_task(loop_boss())
     bot.loop.create_task(loop_shop())
 
-    try:
-        synced = await bot.tree.sync()
-        print(f"{len(synced)} comandos sincronizados")
-    except Exception as e:
-        print(e)
+    await bot.tree.sync()
+    print("Comandos sincronizados")
 
 @bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
