@@ -12,7 +12,7 @@ CANAL_SHOP = 1481485503609045105
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="/", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 def agora():
     return datetime.utcnow() - timedelta(hours=3)
@@ -47,7 +47,7 @@ async def loop_boss():
         canal = bot.get_channel(CANAL_BOSS)
 
         if canal:
-            await canal.send("<@1481015294477733983>\n⚔️ The Spirit is up!")
+            await canal.send("<@1481015294477733983>\n🔔 The Spirit Trials is up!! Run for it")
 
 async def loop_shop():
     await bot.wait_until_ready()
@@ -63,7 +63,7 @@ async def loop_shop():
         canal = bot.get_channel(CANAL_SHOP)
 
         if canal:
-            await canal.send("<@1481015294477733983>\n🛒 The Trial Shop is up!! Run for it")
+            await canal.send("<@1481015294477733983>\n🔔 The Trial Shop is up!! Run for it")
 
 @bot.event
 async def on_ready():
@@ -78,8 +78,8 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-@bot.tree.command(name="timeboss")
-async def timeboss(interaction: discord.Interaction):
+@bot.tree.command(name="timetrial")
+async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
     boss = proximo_boss()
