@@ -49,18 +49,16 @@ async def loop_boss():
 
         if canal:
 
-            embed = discord.Embed(
-                title="⚔️ Spirit Trial Available",
-                description="Run for it!",
-                color=discord.Color.red()
-            )
+    embed = discord.Embed(
+        title="⚔️ Spirit Trial Available",
+        description="Run for it!",
+        color=discord.Color.red()
+    )
 
-            embed.set_footer(text="Spirit Tracker")
+    embed.set_footer(text="Spirit Tracker")
 
-            await canal.send(
-                content="||<@1481015294477733983>||",
-                embed=embed
-            )
+    await canal.send(embed=embed)
+    await canal.send("||<@&1481015294477733983>||")
 
 async def loop_shop():
     await bot.wait_until_ready()
@@ -77,18 +75,16 @@ async def loop_shop():
 
         if canal:
 
-            embed = discord.Embed(
-                title="🛒 Trial Shop Available",
-                description="Run for it!",
-                color=discord.Color.gold()
-            )
+    embed = discord.Embed(
+        title="🛒 Trial Shop Available",
+        description="Run for it!",
+        color=discord.Color.gold()
+    )
 
-            embed.set_footer(text="Spirit Tracker")
+    embed.set_footer(text="Spirit Tracker")
 
-            await canal.send(
-                content="||<@1481015294477733983>||",
-                embed=embed
-            )
+    await canal.send(embed=embed)
+    await canal.send("||<@&1481015294477733983>||")
 
 @bot.event
 async def on_ready():
