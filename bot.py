@@ -91,17 +91,10 @@ async def loop_shop():
 @bot.event
 async def setup_hook():
 
-    print(f"Bot conectado como {bot.user}")
+    guild = discord.Object(id=GUILD_ID)
 
-    await bot.tree.sync()
-
-    bot.loop.create_task(loop_boss())
-    bot.loop.create_task(loop_shop())
-
-    print("Loops iniciados com sucesso ✅")
-
-    print("Comandos sincronizados no servidor")
-
+    bot.tree.clear_commands(guild=guild)
+    await bot.tree.sync(guild=guild)
 @bot.tree.command(name="test")
 async def test(interaction: discord.Interaction):
 
