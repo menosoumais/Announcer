@@ -50,7 +50,7 @@ async def loop_boss():
         if canal:
 
             embed = discord.Embed(
-                title="?? Spirit Trial Available",
+                title="Spirit Trial Available",
                 description="Run for it!",
                 color=discord.Color.red()
             )
@@ -76,7 +76,7 @@ async def loop_shop():
         if canal:
 
             embed = discord.Embed(
-                title="?? Trial Shop Available",
+                title="Trial Shop Available",
                 description="Run for it!",
                 color=discord.Color.gold()
             )
@@ -112,7 +112,7 @@ async def timetrial(interaction: discord.Interaction):
     segundos = total % 60
 
     embed = discord.Embed(
-        title="?? Spirit Trial",
+        title="Spirit Trial",
         color=discord.Color.blue()
     )
 
@@ -139,7 +139,7 @@ async def timeshop(interaction: discord.Interaction):
     minutos = (total % 3600) // 60
 
     embed = discord.Embed(
-        title="?? Trial Shop",
+        title="Trial Shop",
         color=discord.Color.blue()
     )
 
@@ -174,7 +174,7 @@ async def next_event(interaction: discord.Interaction):
     shop_m = (total_shop % 3600) // 60
 
     embed = discord.Embed(
-        title="?? Event Tracker",
+        title="Event Tracker",
         description="Current event timers",
         color=discord.Color.blue()
     )
