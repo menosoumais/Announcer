@@ -15,6 +15,8 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+loops_iniciados = False
+
 def agora():
     return datetime.utcnow() - timedelta(hours=3)
 
@@ -43,23 +45,23 @@ async def loop_boss():
         boss = proximo_boss()
 
         espera = (boss - tempo).total_seconds()
-        await asyncio.sleep(max(espera,0))
+        await asyncio.sleep(max(espera, 0))
 
         canal = bot.get_channel(CANAL_BOSS)
 
         if canal:
-
             embed = discord.Embed(
                 title="⚔️ Spirit Trial Available",
                 description="Run for it!",
                 color=discord.Color.red()
             )
-
             embed.set_footer(text="Spirit Tracker")
 
-            await canal.send(embed=embed)
-            await canal.send("||<@&1481015294477733983>||")
-   
+            await canal.send(
+                content="||<@&1481015294477733983>||",
+                embed=embed
+            )
+
 async def loop_shop():
     await bot.wait_until_ready()
 
@@ -69,25 +71,25 @@ async def loop_shop():
         shop = proximo_shop()
 
         espera = (shop - tempo).total_seconds()
-        await asyncio.sleep(max(espera,0))
+        await asyncio.sleep(max(espera, 0))
 
         canal = bot.get_channel(CANAL_SHOP)
 
         if canal:
-
             embed = discord.Embed(
                 title="🛒 Trial Shop Available",
                 description="Run for it!",
                 color=discord.Color.gold()
             )
-
             embed.set_footer(text="Spirit Tracker")
 
-            await canal.send(embed=embed)
-            await canal.send("||<@&1481015294477733983>||")
+            await canal.send(
+                content="||<@&1481015294477733983>||",
+                embed=embed
+            )
 
 @bot.event
-async def on_ready():
+async def setup_hook():
 
     print(f"Bot conectado como {bot.user}")
 
@@ -97,7 +99,48 @@ async def on_ready():
     bot.loop.create_task(loop_boss())
     bot.loop.create_task(loop_shop())
 
+    print("Loops iniciados com sucesso ✅")
+
     print("Comandos sincronizados no servidor")
+
+@bot.tree.command(name="test")
+async def test(interaction: discord.Interaction):
+
+    await interaction.response.send_message(
+        "🚀 Enviando todas as mensagens de teste...",
+        ephemeral=True
+    )
+
+    canal_boss = bot.get_channel(CANAL_BOSS)
+    canal_shop = bot.get_channel(CANAL_SHOP)
+
+    # BOSS
+    if canal_boss:
+        embed_boss = discord.Embed(
+            title="⚔️ Spirit Trial Available",
+            description="Run for it!",
+            color=discord.Color.red()
+        )
+        embed_boss.set_footer(text="Spirit Tracker")
+
+        await canal_boss.send(
+            content="||<@&1481015294477733983>||",
+            embed=embed_boss
+        )
+
+    # SHOP
+    if canal_shop:
+        embed_shop = discord.Embed(
+            title="🛒 Trial Shop Available",
+            description="Run for it!",
+            color=discord.Color.gold()
+        )
+        embed_shop.set_footer(text="Spirit Tracker")
+
+        await canal_shop.send(
+            content="||<@&1481015294477733983>||",
+            embed=embed_shop
+        )
 
 @bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
