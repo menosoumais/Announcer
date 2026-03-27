@@ -129,7 +129,8 @@ async def test(interaction: discord.Interaction):
             content="||<@&1481015294477733983>||",
             embed=embed_shop
         )
-@bot.tree.command(name="timetrial")
+
+@bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
