@@ -180,13 +180,13 @@ async def next_event(interaction: discord.Interaction):
     )
 
     embed.add_field(
-        name="?? Spirit Trial",
+        name="Spirit Trial",
         value=f"{boss_min}m {boss_sec}s",
         inline=False
     )
 
     embed.add_field(
-        name="?? Trial Shop",
+        name="Trial Shop",
         value=f"{shop_h}h {shop_m}m",
         inline=False
     )
