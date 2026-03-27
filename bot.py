@@ -94,7 +94,8 @@ async def setup_hook():
     guild = discord.Object(id=GUILD_ID)
 
     bot.tree.clear_commands(guild=guild)
-    await bot.tree.sync(guild=guild)
+    await bot.tree.sync(guild=guild)
+
 @bot.tree.command(name="test")
 async def test(interaction: discord.Interaction):
 
