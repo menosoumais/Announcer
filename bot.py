@@ -83,7 +83,6 @@ async def loop_shop():
                 embed=embed
             )
 
-# ?? AQUI É O MAIS IMPORTANTE
 async def setup_hook():
     print("Iniciando setup...")
 
@@ -94,7 +93,6 @@ async def setup_hook():
 
     print("Tudo sincronizado e loops iniciados ?")
 
-# ?? COMANDO TEST
 @bot.tree.command(name="test")
 async def test(interaction: discord.Interaction):
 
@@ -131,9 +129,7 @@ async def test(interaction: discord.Interaction):
             content="||<@&1481015294477733983>||",
             embed=embed_shop
         )
-
-# COMANDOS DE TEMPO
-@bot.tree.command(name="timetrial")
+@bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
