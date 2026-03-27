@@ -93,8 +93,7 @@ async def setup_hook():
 
     print(f"Bot conectado como {bot.user}")
 
-    guild = discord.Object(id=GUILD_ID)
-    await bot.tree.sync(guild=guild)
+    await bot.tree.sync()
 
     bot.loop.create_task(loop_boss())
     bot.loop.create_task(loop_shop())
