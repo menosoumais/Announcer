@@ -129,7 +129,7 @@ async def timetrial(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="timetrial")
+@bot.tree.command(name="timeshop")
 async def timeshop(interaction: discord.Interaction):
 
     tempo = agora()
@@ -156,7 +156,7 @@ async def timeshop(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="timetrial")
+@bot.tree.command(name="next")
 async def next_event(interaction: discord.Interaction):
 
     tempo = agora()
