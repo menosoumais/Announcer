@@ -102,7 +102,8 @@ async def on_ready():
         print(e)
 
     bot.loop.create_task(loop_boss())
-    bot.loop.create_task(loop_shop())@bot.tree.command(name="timetrial")
+    bot.loop.create_task(loop_shop())
+@bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
