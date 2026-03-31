@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from datetime import datetime, timedelta
+from datetime import timezone, datetime, timedelta
 import asyncio
 import os
 
@@ -16,7 +16,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 def agora():
-    return datetime.utcnow() - timedelta(hours=3)
+    return datetime.now(timezone.utc) - timedelta(hours=3)
 
 def proximo_boss():
     tempo = agora()
@@ -104,7 +104,7 @@ async def on_ready():
     bot.loop.create_task(loop_boss())
     bot.loop.create_task(loop_shop())
 
-@bot.tree.command(name="timetrial")
+@bot.tree.command(name="timetrial", guild=discord.Object(id=GUILD_ID))
 async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
@@ -131,7 +131,7 @@ async def timetrial(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="timeshop")
+@bot.tree.command(name="timetrial", guild=discord.Object(id=GUILD_ID))
 async def timeshop(interaction: discord.Interaction):
 
     tempo = agora()
@@ -158,7 +158,7 @@ async def timeshop(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="next")
+@bot.tree.command(name="timetrial", guild=discord.Object(id=GUILD_ID))
 async def next_event(interaction: discord.Interaction):
 
     tempo = agora()
