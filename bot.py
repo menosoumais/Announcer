@@ -91,15 +91,18 @@ async def on_ready():
 
     print(f"Bot conectado como {bot.user}")
 
+    await bot.wait_until_ready()
+
     guild = discord.Object(id=GUILD_ID)
-    await bot.tree.sync(guild=guild)
+
+    try:
+        synced = await bot.tree.sync(guild=guild)
+        print(f"{len(synced)} comandos sincronizados")
+    except Exception as e:
+        print(e)
 
     bot.loop.create_task(loop_boss())
-    bot.loop.create_task(loop_shop())
-
-    print("Comandos sincronizados no servidor")
-
-@bot.tree.command(name="timetrial")
+    bot.loop.create_task(loop_shop())@bot.tree.command(name="timetrial")
 async def timetrial(interaction: discord.Interaction):
 
     tempo = agora()
